@@ -9,6 +9,10 @@ class ProductService {
     this.model = new ProductModel(connection);
   }
 
+  public async getAll(): Promise<IProduct[]> {
+    return this.model.getAll();
+  }
+
   public async create(product: IProduct): Promise<IProduct> {
     return this.model.create(product);
   }

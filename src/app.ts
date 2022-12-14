@@ -7,7 +7,7 @@ app.use(express.json());
 
 const productController = new ProductController();
 
-app.get('/products');
+app.get('/products', productController.getAll);
 
 app.get('/orders');
 
