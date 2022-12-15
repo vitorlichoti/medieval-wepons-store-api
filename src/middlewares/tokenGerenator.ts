@@ -5,23 +5,19 @@ import connection from '../models/connection';
 
 const secret = 'secret';
 
-// const jwtConfig = {
-//   expiresIn: '7d',
-//   algorithm: 'HS256',
-// };
-
 const tokenGenerator = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   const [[user]] = await connection.execute<RowDataPacket[]>(
-    'SELECT id, username FROM Trybesmith.users WHERE username = ? AND password = ?',
+    `SELECT id AS userId, username AS userName, vocation, level
+     FROM Trybesmith.users
+     WHERE username = ? AND password = ?`,
     [username, password],
   );
-  console.log(user);
     
-  const payload = { data: { userId: user.id, username: user.username } };
+  const payload = { data: { ...user } };
 
-  const token = jwt.sign(payload, secret);
+  const token = jwt.sign(payload, secret, { expiresIn: '1d' });
 
   return res.status(200).json({ token });
 };
