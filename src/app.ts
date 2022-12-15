@@ -2,6 +2,8 @@ import express from 'express';
 import OrderController from './controller/order.controller';
 import ProductController from './controller/product.controller';
 import UserController from './controller/user.controller';
+import loginValidation from './middlewares/loginValidations';
+import tokenGenerator from './middlewares/tokenGerenator';
 
 const app = express();
 
@@ -19,7 +21,7 @@ app.post('/products', productController.create);
 
 app.post('/users', userController.create);
 
-app.post('/login');
+app.post('/login', loginValidation, tokenGenerator);
 
 app.post('/orders');
 
